@@ -5,6 +5,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from help_window import HelpWindow
+from game_board import GameBoard
 
 class QtSolitaireWindow(QMainWindow):
     """Main Window."""
@@ -12,13 +13,13 @@ class QtSolitaireWindow(QMainWindow):
         """Initializer."""
         super().__init__(parent)
         self.setWindowTitle("QtSolitaire")
-        self.resize(400, 200)
-        self.centralWidget = QLabel("Hello, World")
-        self.centralWidget.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        self.setCentralWidget(self.centralWidget)
-        self.setStyleSheet("background-color:green")
+
+        # Create the game board
+        self._create_game_board()
+
+        # Create the main menu bar
         self._create_menu_bar()
-    
+
     def _create_menu_bar(self):
         """Create top level game controls"""
         menu_bar = self.menuBar()
@@ -41,15 +42,16 @@ class QtSolitaireWindow(QMainWindow):
         menu_bar.setNativeMenuBar(False)
         self.setMenuBar(menu_bar)
 
+    def _create_game_board(self):
+        self.game_board = GameBoard(self)
+
     def start_new_game(self):
-        # Placeholder functionality to start a new game.
-        self.centralWidget.setText('Starting new game...')
+        self.game_board.start_new_game()
 
     def quit_game(self):
         sys.exit()
 
     def show_help_dialog(self):
-        print('hereee')
         self._help_window = HelpWindow()
         self._help_window.show()
 

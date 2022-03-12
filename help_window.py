@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import *
 
-
 class HelpWindow(QWidget):
     """
     This "window" is a QWidget. If it has no parent, it

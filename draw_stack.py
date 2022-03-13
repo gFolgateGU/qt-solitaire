@@ -23,6 +23,23 @@ class DrawStack(StackBase):
                 self.cards[idx].setPos(QPointF(cur_x + off_x, cur_y + off_y))
                 self.cards[idx].setZValue(idx)
 
+    def set_cards(self, deck):
+        all_cards_set = False
+        while not all_cards_set:
+            card = deck.give_top_card()
+            if card is None:
+                all_cards_set = True
+            else:
+                card.flip_down()
+                card.set_stack(self)
+                self.cards.append(card)
+        
+        self.update()
+        for card in self.cards:
+            self.parent.scene.addItem(card)
+            card.show()
+
+
     def accept_card(self, card):
         # A draw stack will never take cards
         # The only way a draw stack can get cards

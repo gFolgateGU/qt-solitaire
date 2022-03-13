@@ -8,7 +8,7 @@ import draw_stack
 import draw_pile
 
 class Card(QGraphicsPixmapItem):
-    def __init__(self, suit, value, parent_stack):
+    def __init__(self, suit, value, parent_stack = None):
         super(Card, self).__init__()
         self.suit = suit
         self.value = value
@@ -17,6 +17,9 @@ class Card(QGraphicsPixmapItem):
         self.init_properties()
         self.load_image()
 
+    def set_stack(self, parent_stack):
+        self.stack = parent_stack
+
     def init_properties(self):
         self.setShapeMode(QGraphicsPixmapItem.BoundingRectShape)
         self.setFlag(QGraphicsItem.ItemSendsGeometryChanges)
@@ -24,7 +27,6 @@ class Card(QGraphicsPixmapItem):
             self.setFlag(QGraphicsItem.ItemIsMovable, False)
         else:
             self.setFlag(QGraphicsItem.ItemIsMovable, True)
-
 
     def load_image(self):
         face = QPixmap(os.path.join('assets/cards', '%s%s.png' % (self.value, self.suit)))
@@ -69,7 +71,7 @@ class Card(QGraphicsPixmapItem):
                         if accept:
                             item.add_card(self)
                 else:
-                    print('Pending behavior...')
+                    pass
         self.stack.update()
         
         return super(Card, self).mouseReleaseEvent(event)

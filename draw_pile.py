@@ -6,12 +6,11 @@ from stack_base import StackBase
 import consts
 
 class DrawPile(StackBase):
-    def __init__(self):
+    def __init__(self, parent):
         super(DrawPile, self).__init__()
+        self.parent = parent
         self.setRect(QRectF(consts.CARD_SILO))
 
-        # A draw stack contains a list of cards
-        self.cards = []
 
     def update(self):
         cur_pos = self.scenePos()
@@ -20,7 +19,7 @@ class DrawPile(StackBase):
                 cur_x = cur_pos.x()
                 cur_y = cur_pos.y()
                 off_x = consts.STACK_OFFSET_X
-                off_y = consts.STACK_OFFSET_X
+                off_y = consts.STACK_OFFSET_Y
                 self.cards[idx].setPos(QPointF(cur_x + off_x, cur_y + off_y))
                 self.cards[idx].setZValue(idx)
 

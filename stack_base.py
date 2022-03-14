@@ -17,11 +17,12 @@ class StackBase(QGraphicsRectItem):
     def accept_card(self, card):
         raise NotImplementedError()
 
-    def get_top_card(self):
-        if len(self.cards) > 0:
-            return self.cards[len(self.cards)-1]
+    def is_top_card(self, card):
+        if len(self.cards) < 1:
+            return False
         else:
-            return None
+            if self.cards[len(self.cards)-1] == card:
+                return True
 
     def add_card(self, card):
         # Remove the card from its old stack and add it to its new stack

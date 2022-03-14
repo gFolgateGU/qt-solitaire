@@ -18,7 +18,7 @@ class WorkStack(StackBase):
                 cur_x = cur_pos.x()
                 cur_y = cur_pos.y()
                 off_x = consts.STACK_OFFSET_X
-                off_y = consts.STACK_OFFSET_Y + (idx * 15)
+                off_y = consts.STACK_OFFSET_Y + (idx * consts.WORK_STACK_OFFSET_Y)
                 self.cards[idx].setPos(QPointF(cur_x + off_x, cur_y + off_y))
                 self.cards[idx].setZValue(idx)
                 if self.cards[idx].is_face_up():

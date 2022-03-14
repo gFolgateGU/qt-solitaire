@@ -6,6 +6,9 @@ import os
 import stack_base
 import draw_stack
 import draw_pile
+import win_stack
+import work_stack
+import consts
 
 class Card(QGraphicsPixmapItem):
     def __init__(self, suit, value, parent_stack = None):
@@ -55,7 +58,24 @@ class Card(QGraphicsPixmapItem):
         self.load_image()
 
     def has_children(self):
-        return len(self.children) > 0    
+        return len(self.children) > 0
+
+    def mouseMoveEvent(self, event):
+        """This method modifies the card visibility when dragged"""
+        # Set to a very high z value
+        high_z = 100
+        self.setZValue(high_z)
+        cur_pos = self.scenePos()
+        for idx, child in enumerate(self.children):
+            cur_x = cur_pos.x()
+            cur_y = cur_pos.y()
+            off_x = consts.WORK_STACK_OFFSET_X
+            off_y = (idx + 1) * consts.WORK_STACK_OFFSET_Y
+            child.setPos(QPointF(cur_x + off_x, cur_y + off_y))
+            child.setZValue(high_z + (idx + 1))
+
+        # Call super class mouse press event
+        return super(Card, self).mouseMoveEvent(event)    
 
     def mouseDoubleClickEvent(self, event):
         items = self.collidingItems()
@@ -64,14 +84,15 @@ class Card(QGraphicsPixmapItem):
                 if (isinstance(item, draw_stack.DrawStack)):
                     if self.stack == item:
                         item.draw_card(self)
-        
+        # Call super class mouse double click event
         return super(Card, self).mouseDoubleClickEvent(event)
 
     def mouseReleaseEvent(self, event):
         items = self.collidingItems()
         if len(items) > 0:
             for item in items:
-                if (isinstance(item, stack_base.StackBase)):
+                if isinstance(item, win_stack.WinStack) \
+                or isinstance(item, work_stack.WorkStack):
                     if self.stack == item:
                         # Just keep it in the same stack
                         break
@@ -81,6 +102,7 @@ class Card(QGraphicsPixmapItem):
                             item.add_card(self)
                 else:
                     pass
+        # Update the stack for any graphics changes   
         self.stack.update()
-        
+        # Call super class mouse release event
         return super(Card, self).mouseReleaseEvent(event)

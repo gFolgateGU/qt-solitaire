@@ -5,9 +5,9 @@ from PyQt5.QtCore import *
 from stack_base import StackBase
 import consts
 
-class DrawPile(StackBase):
+class WinStack(StackBase):
     def __init__(self, parent):
-        super(DrawPile, self).__init__()
+        super(WinStack, self).__init__()
         self.parent = parent
         self.setRect(QRectF(consts.CARD_SILO))
 
@@ -23,5 +23,7 @@ class DrawPile(StackBase):
                 self.cards[idx].setZValue(idx)
 
     def accept_card(self, card):
-        # A draw pile only gets can get cards from the draw stack
-        return True
+        if (card.has_children()):
+            return False
+        else:
+            return True

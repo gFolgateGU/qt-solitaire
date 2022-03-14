@@ -14,6 +14,7 @@ class Card(QGraphicsPixmapItem):
         self.value = value
         self.stack = parent_stack
         self.face_up = False
+        self.children = []
         self.init_properties()
         self.load_image()
 
@@ -38,6 +39,9 @@ class Card(QGraphicsPixmapItem):
         else:
             self.setPixmap(self.back)
 
+    def is_face_up(self):
+        return self.face_up
+
     def flip_up(self):
         # Flip the card up, make movable, and reload image
         self.face_up = True
@@ -48,7 +52,10 @@ class Card(QGraphicsPixmapItem):
         # Flip the card down, make immovable, and reload image
         self.face_up = False
         self.setFlag(QGraphicsItem.ItemIsMovable, False)
-        self.load_image()      
+        self.load_image()
+
+    def has_children(self):
+        return len(self.children) > 0    
 
     def mouseDoubleClickEvent(self, event):
         items = self.collidingItems()
@@ -57,6 +64,8 @@ class Card(QGraphicsPixmapItem):
                 if (isinstance(item, draw_stack.DrawStack)):
                     if self.stack == item:
                         item.draw_card(self)
+        
+        return super(Card, self).mouseDoubleClickEvent(event)
 
     def mouseReleaseEvent(self, event):
         items = self.collidingItems()

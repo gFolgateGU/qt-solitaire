@@ -6,6 +6,7 @@ import os
 
 from draw_stack import DrawStack
 from draw_pile import DrawPile
+from win_stack import WinStack
 from work_stack import WorkStack
 from deck import Deck
 
@@ -19,6 +20,8 @@ class GameBoard():
         self.parent.setCentralWidget(self.view)
         # Initialize the game deck
         self._init_deck()
+        # Initialize the win stacks
+        self._init_win_stacks()
         # Initialize the work stacks
         self._init_work_stacks()
         # Initialize the draw stack
@@ -29,6 +32,16 @@ class GameBoard():
     def _init_deck(self):
         self.deck = Deck()
         self.deck.shuffle_cards()
+
+    def _init_win_stacks(self):
+        num_win_stacks = 4
+        self.win_stacks = []
+        for idx in range(num_win_stacks):
+            win_stack = WinStack(self)
+            win_stack.setPos(50 + (idx * 100), 25)
+            self.scene.addItem(win_stack)
+            win_stack.show()
+            self.win_stacks.append(win_stack)
 
     def _init_work_stacks(self):
         num_work_stacks = 7

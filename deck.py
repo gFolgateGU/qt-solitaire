@@ -21,7 +21,6 @@ class Deck:
             self.cards[rand_idx] = temp
 
     def give_top_card(self):
-        print(len(self.cards))
         if len(self.cards) > 0:
             return self.cards.pop()
         else:

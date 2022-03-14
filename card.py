@@ -10,7 +10,7 @@ import win_stack
 import work_stack
 import consts
 
-class Card(QGraphicsPixmapItem):
+class Card(QGraphicsPixmapItem):  
     def __init__(self, suit, value, parent_stack = None):
         super(Card, self).__init__()
         self.suit = suit
@@ -18,9 +18,16 @@ class Card(QGraphicsPixmapItem):
         self.stack = parent_stack
         self.face_up = False
         self.children = []
+        self.determine_color()
         self.init_properties()
         self.load_image()
 
+    def determine_color(self):
+        if self.suit == 'H' or self.suit == 'D':
+            self.color_is_red = True
+        else:
+            self.color_is_red = False
+ 
     def set_stack(self, parent_stack):
         self.stack = parent_stack
 

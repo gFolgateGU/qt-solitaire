@@ -10,7 +10,7 @@ from game_board import GameBoard
 class QtSolitaireWindow(QMainWindow):
     """Main Window."""
     def __init__(self, parent=None):
-        """Initializer."""
+        """Initializer for the main application"""
         super().__init__(parent)
         self.setWindowTitle("QtSolitaire")
 
@@ -43,15 +43,19 @@ class QtSolitaireWindow(QMainWindow):
         self.setMenuBar(menu_bar)
 
     def _create_game_board(self):
+        """Create the main game board that holds card and stacks"""
         self.game_board = GameBoard(self)
 
     def start_new_game(self):
+        """Start a new game after a completion or stop."""
         self.game_board.start_new_game()
 
     def quit_game(self):
+        """Quit the application"""
         sys.exit()
 
     def show_help_dialog(self):
+        """Show help dialog for instructions on how to play"""
         self._help_window = HelpWindow()
         self._help_window.show()
 

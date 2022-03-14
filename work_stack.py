@@ -47,8 +47,39 @@ class WorkStack(StackBase):
             card.show()
 
     def accept_card(self, card):
-        # A draw pile only gets can get cards from the draw stack
-        return True
+        """This method lists the rules for which cards are allowed."""
+        if self._is_empty_work_stack():
+            if self._is_a_king(card):
+                return True
+            else:
+                return False
+        else:
+            return self._is_in_order(card)
+
+    def _is_empty_work_stack(self):
+        if len(self.cards) < 1:
+            return True
+        return False
+        
+    def _is_a_king(self, card):
+        king_value = 13
+        if int(card.value) == king_value:
+            return True
+        return False
+
+    def _is_in_order(self, card):
+        top = self.cards[len(self.cards)-1]
+        # First make sure it is the right color
+        if top.color_is_red != card.color_is_red:
+            # Now ensure the delta rank is +1
+            delta_rank = int(top.value) - int(card.value)
+            if delta_rank == 1:
+                return True
+            else:
+                return False
+        else:
+            # Can't add cards of the same color
+            return False 
 
     def add_card(self, card):
         # Get all that card's children
